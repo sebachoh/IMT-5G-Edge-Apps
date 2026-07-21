@@ -71,6 +71,38 @@ services:
     networks:
       - edge-net
     restart: unless-stopped
+  # 7. Camera Simulators (eMBB Traffic Generator)
+  camera_1:
+    image: jrottenberg/ffmpeg:4.4-alpine
+    container_name: edge_camera_1
+    volumes:
+      - ./services/media-server/sample.mp4:/video.mp4
+    command: >
+      -stream_loop -1 -re -i /video.mp4
+      -c:v libx264 -preset ultrafast -b:v 800k -vf scale=854:480 -r 20
+      -c:a aac
+      -f flv rtmp://media-server:1935/live/ambulance_cam_1
+    depends_on:
+      - media-server
+    networks:
+      - edge-net
+    restart: unless-stopped
+
+  camera_2:
+    image: jrottenberg/ffmpeg:4.4-alpine
+    container_name: edge_camera_2
+    volumes:
+      - ./services/media-server/sample.mp4:/video.mp4
+    command: >
+      -stream_loop -1 -re -i /video.mp4
+      -c:v libx264 -preset ultrafast -b:v 800k -vf scale=854:480 -r 20
+      -c:a aac
+      -f flv rtmp://media-server:1935/live/ambulance_cam_2
+    depends_on:
+      - media-server
+    networks:
+      - edge-net
+    restart: unless-stopped
 
 networks:
   edge-net:
