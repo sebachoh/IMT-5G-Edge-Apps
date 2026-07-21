@@ -53,7 +53,7 @@ export default function SliceCard({
             <div className="flex justify-between items-end mb-2 relative z-10">
                 <div className="flex items-baseline gap-1">
                     <span className="text-3xl font-bold font-mono text-slate-800 dark:text-white tracking-tighter">
-                        {sliceData.throughput}
+                        {sliceData.throughput === 0 ? '--' : sliceData.throughput}
                     </span>
                     <span className="text-xs text-slate-500 font-bold">Mbps</span>
                 </div>

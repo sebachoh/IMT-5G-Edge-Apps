@@ -54,11 +54,11 @@ function generateNormalData() {
             connected_ues: 2 // 2 cámaras
         },
         // Slice 2: URLLC
-        slice2_URLLC: { throughput: Math.floor(Math.random() * 50) + 100, latency: Math.floor(Math.random() * 2) + 1, jitter: Math.floor(Math.random() * 2), packet_loss: 0.00, reliability: 99.999, connected_ues: 20 },
+        slice2_URLLC: { throughput: 0, latency: '--', jitter: '--', packet_loss: '--', reliability: '--', connected_ues: 0 },
         // Slice 3: mMTC
-        slice3_mMTC: { throughput: Math.floor(Math.random() * 20) + 10, latency: Math.floor(Math.random() * 50) + 40, jitter: Math.floor(Math.random() * 20) + 5, packet_loss: (Math.random() * 2).toFixed(2), reliability: 98.5, connected_ues: 5000 },
+        slice3_mMTC: { throughput: 0, latency: '--', jitter: '--', packet_loss: '--', reliability: '--', connected_ues: 0 },
         // Slice 4: V2X
-        slice4_V2X: { throughput: Math.floor(Math.random() * 30) + 15, latency: Math.floor(Math.random() * 10) + 5, jitter: Math.floor(Math.random() * 3) + 1, packet_loss: (Math.random() * 0.01).toFixed(3), reliability: 99.99, connected_ues: 2500 }
+        slice4_V2X: { throughput: 0, latency: '--', jitter: '--', packet_loss: '--', reliability: '--', connected_ues: 0 }
     };
 }
 
