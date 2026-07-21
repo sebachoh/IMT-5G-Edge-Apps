@@ -42,6 +42,17 @@ services:
       - edge-net
     restart: unless-stopped
 
+  # 4. React Frontend - NGINX Web Server
+  ambulance-ui:
+    build:
+      context: ./web-dashboards/ambulance-ui
+    container_name: edge_ambulance_ui
+    ports:
+      - "80:80" # Standard HTTP Port
+    networks:
+      - edge-net
+    restart: unless-stopped
+
 networks:
   edge-net:
     driver: bridge
