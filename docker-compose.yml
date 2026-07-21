@@ -58,12 +58,7 @@ services:
     build:
       context: ./network-telemetry-backend
     container_name: edge_network_telemetry
-    ports:
-      - "4000:4000" # WebSocket Telemetry
-    volumes:
-      - /proc/net/dev:/host/proc/net/dev:ro
-    networks:
-      - edge-net
+    network_mode: "host" # Allows direct sniffing of /proc/net/dev from the host kernel
     restart: unless-stopped
 
   # 6. React Frontend - Network Dashboard

@@ -5,8 +5,8 @@ let realThroughputMbps = 0;
 
 function measureRealNetwork() {
     try {
-        // En producción, esto lee el archivo montado directamente desde el Kernel de Linux del servidor físico
-        const content = fs.readFileSync('/host/proc/net/dev', 'utf8');
+        // En producción, esto lee el archivo directamente desde el Kernel de Linux del servidor físico
+        const content = fs.readFileSync('/proc/net/dev', 'utf8');
         const lines = content.split('\n');
         
         let currentTotalBytes = 0;
