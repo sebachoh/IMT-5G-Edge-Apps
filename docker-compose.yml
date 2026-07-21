@@ -60,6 +60,8 @@ services:
     container_name: edge_network_telemetry
     ports:
       - "4000:4000" # WebSocket Telemetry
+    volumes:
+      - /proc/net/dev:/host/proc/net/dev:ro
     networks:
       - edge-net
     restart: unless-stopped
