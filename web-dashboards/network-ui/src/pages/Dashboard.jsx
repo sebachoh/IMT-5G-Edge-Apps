@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { Activity, Zap, Cpu, Car } from 'lucide-react';
+import { Activity, Zap, Cpu, Car, Moon, Sun } from 'lucide-react';
 import { useMetrics } from '../context/MetricsContext';
 import LoadTestPanel from '../components/LoadTestPanel';
 import SliceCard from '../components/SliceCard';
@@ -9,7 +9,7 @@ import FluxFlowDiagram from '../components/FluxFlowDiagram';
 import LiveStreamlines from '../components/LiveStreamlines';
 import IntensityHeatmap from '../components/IntensityHeatmap';
 
-function Dashboard() {
+function Dashboard({ isDarkMode, setIsDarkMode }) {
     const navigate = useNavigate();
     const { metrics, history, setUpdateInterval, activeTest, startSimulationTest } = useMetrics();
 
@@ -66,20 +66,20 @@ function Dashboard() {
     const chartHistory = history.slice(-getPointsToShow());
 
     return (
-        <div className="min-h-screen bg-[#0d1117] text-slate-100 p-4 md:p-6 font-sans">
+        <div className="min-h-screen bg-slate-50 dark:bg-[#0d1117] text-slate-800 dark:text-slate-100 p-4 md:p-6 font-sans transition-colors duration-500">
             {/* HEADER */}
-            <header className="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-[#12141c] border border-[#2a2e3f] rounded-2xl p-4 shadow-lg">
+            <header className="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white dark:bg-[#12141c] border border-slate-200 dark:border-[#2a2e3f] rounded-2xl p-4 shadow-lg transition-colors duration-500">
                 
                 {/* Header Left: Title & Icon */}
                 <div className="flex items-center gap-4">
-                    <div className="bg-[#1e293b] border border-[#334155] p-3 rounded-xl flex items-center justify-center">
-                        <Activity className="text-blue-400" size={24} />
+                    <div className="bg-slate-100 dark:bg-[#1e293b] border border-slate-200 dark:border-[#334155] p-2 rounded-xl flex items-center justify-center">
+                        <img src={isDarkMode ? "/imt-logo-dark.png" : "/imt-logo-light.png"} alt="IMT Logo" className="h-8 object-contain" />
                     </div>
                     <div>
-                        <h1 className="text-lg md:text-xl font-bold text-white tracking-wide">
+                        <h1 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white tracking-wide">
                             Network Slice Flux
                         </h1>
-                        <p className="text-xs text-slate-400 font-mono tracking-wider mt-0.5">
+                        <p className="text-xs text-slate-500 dark:text-slate-400 font-mono tracking-wider mt-0.5">
                             5G Core · Multi-Slice Traffic Monitor
                         </p>
                     </div>
@@ -88,14 +88,23 @@ function Dashboard() {
                 {/* Header Right: Stats, Time Range, Status */}
                 <div className="flex flex-wrap items-center gap-3">
                     
-                    {/* Tests Menu */}
+                    {/* Dark Mode Toggle */}
+                    <button 
+                        onClick={() => setIsDarkMode(!isDarkMode)}
+                        className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors duration-300 ${isDarkMode ? 'bg-[#3b82f6]' : 'bg-slate-300'}`}
+                    >
+                        <span className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-md transition-transform duration-300 flex items-center justify-center ${isDarkMode ? 'translate-x-6' : 'translate-x-1'}`}>
+                            {isDarkMode ? <Moon className="h-3 w-3 text-[#3b82f6]" /> : <Sun className="h-3 w-3 text-slate-400" />}
+                        </span>
+                    </button>
+                    
                     <div className="relative">
                         <button 
                             onClick={() => setIsTestMenuOpen(!isTestMenuOpen)}
-                            className={`border px-3 py-1 text-[10px] font-mono rounded-lg transition-colors flex items-center gap-2 ${
+                            className={`border px-3 py-1.5 text-[10px] font-mono rounded-lg transition-colors flex items-center gap-2 ${
                                 activeTest 
-                                ? 'bg-red-500/10 border-red-500/50 text-red-400' 
-                                : 'bg-[#1e293b] border-[#334155] hover:bg-[#334155] text-slate-300'
+                                ? 'bg-red-500/10 border-red-500/50 text-red-500 dark:text-red-400' 
+                                : 'bg-slate-100 dark:bg-[#1e293b] border-slate-200 dark:border-[#334155] hover:bg-slate-200 dark:hover:bg-[#334155] text-slate-600 dark:text-slate-300'
                             }`}
                         >
                             {activeTest && <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></div>}
@@ -103,15 +112,15 @@ function Dashboard() {
                         </button>
 
                         {isTestMenuOpen && (
-                            <div className="absolute right-0 top-full mt-2 w-64 bg-[#1e293b] border border-[#334155] rounded-xl shadow-2xl overflow-hidden z-50">
-                                <div className="p-2 bg-[#0f172a] border-b border-[#334155]">
-                                    <span className="text-xs font-bold text-slate-300 ml-2">Performance Tests</span>
+                            <div className="absolute right-0 top-full mt-2 w-64 bg-white dark:bg-[#1e293b] border border-slate-200 dark:border-[#334155] rounded-xl shadow-2xl overflow-hidden z-50">
+                                <div className="p-2 bg-slate-50 dark:bg-[#0f172a] border-b border-slate-200 dark:border-[#334155]">
+                                    <span className="text-xs font-bold text-slate-700 dark:text-slate-300 ml-2">Performance Tests</span>
                                 </div>
                                 <div className="p-2 space-y-1">
                                     {activeTest && (
                                         <button 
                                             onClick={() => { startSimulationTest(null); setIsTestMenuOpen(false); }}
-                                            className="w-full text-left px-3 py-2 text-xs font-mono text-red-400 hover:bg-red-500/10 rounded flex items-center gap-2"
+                                            className="w-full text-left px-3 py-2 text-xs font-mono text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 rounded flex items-center gap-2"
                                         >
                                             <div className="w-1.5 h-1.5 rounded-full bg-red-500"></div>
                                             Stop Current Test
@@ -119,25 +128,25 @@ function Dashboard() {
                                     )}
                                     <button 
                                         onClick={() => { startSimulationTest('eMBB_4k_video'); setIsTestMenuOpen(false); }}
-                                        className={`w-full text-left px-3 py-2 text-xs font-mono rounded hover:bg-[#334155] ${activeTest === 'eMBB_4k_video' ? 'bg-[#334155] text-blue-400' : 'text-slate-300'}`}
+                                        className={`w-full text-left px-3 py-2 text-xs font-mono rounded hover:bg-slate-100 dark:hover:bg-[#334155] ${activeTest === 'eMBB_4k_video' ? 'bg-slate-100 dark:bg-[#334155] text-blue-500 dark:text-blue-400' : 'text-slate-600 dark:text-slate-300'}`}
                                     >
                                         🎬 eMBB: 2x 4K@60FPS Stream
                                     </button>
                                     <button 
                                         onClick={() => { startSimulationTest('URLLC_critical_load'); setIsTestMenuOpen(false); }}
-                                        className={`w-full text-left px-3 py-2 text-xs font-mono rounded hover:bg-[#334155] ${activeTest === 'URLLC_critical_load' ? 'bg-[#334155] text-orange-400' : 'text-slate-300'}`}
+                                        className={`w-full text-left px-3 py-2 text-xs font-mono rounded hover:bg-slate-100 dark:hover:bg-[#334155] ${activeTest === 'URLLC_critical_load' ? 'bg-slate-100 dark:bg-[#334155] text-orange-500 dark:text-orange-400' : 'text-slate-600 dark:text-slate-300'}`}
                                     >
                                         ⚡ URLLC: Critical Load Influx
                                     </button>
                                     <button 
                                         onClick={() => { startSimulationTest('mMTC_10k_ues'); setIsTestMenuOpen(false); }}
-                                        className={`w-full text-left px-3 py-2 text-xs font-mono rounded hover:bg-[#334155] ${activeTest === 'mMTC_10k_ues' ? 'bg-[#334155] text-emerald-400' : 'text-slate-300'}`}
+                                        className={`w-full text-left px-3 py-2 text-xs font-mono rounded hover:bg-slate-100 dark:hover:bg-[#334155] ${activeTest === 'mMTC_10k_ues' ? 'bg-slate-100 dark:bg-[#334155] text-emerald-500 dark:text-emerald-400' : 'text-slate-600 dark:text-slate-300'}`}
                                     >
                                         📡 mMTC: 10,000 UEs Storm
                                     </button>
                                     <button 
                                         onClick={() => { startSimulationTest('V2X_emergency_brake'); setIsTestMenuOpen(false); }}
-                                        className={`w-full text-left px-3 py-2 text-xs font-mono rounded hover:bg-[#334155] ${activeTest === 'V2X_emergency_brake' ? 'bg-[#334155] text-purple-400' : 'text-slate-300'}`}
+                                        className={`w-full text-left px-3 py-2 text-xs font-mono rounded hover:bg-slate-100 dark:hover:bg-[#334155] ${activeTest === 'V2X_emergency_brake' ? 'bg-slate-100 dark:bg-[#334155] text-purple-500 dark:text-purple-400' : 'text-slate-600 dark:text-slate-300'}`}
                                     >
                                         🚗 V2X: Emergency Brake Broadcast
                                     </button>
@@ -147,16 +156,16 @@ function Dashboard() {
                     </div>
 
                     {/* Interval Selector */}
-                    <div className="border border-[#2a2e3f] bg-[#161b22] rounded-lg p-1 flex items-center gap-1">
+                    <div className="border border-slate-200 dark:border-[#2a2e3f] bg-slate-50 dark:bg-[#161b22] rounded-lg p-1 flex items-center gap-1 transition-colors">
                         <span className="text-[10px] text-slate-500 font-mono px-2">Update rate:</span>
                         {intervals.map(int => (
                             <button 
                                 key={int.label}
                                 onClick={() => handleIntervalChange(int.ms)}
-                                className={`text-[10px] font-mono px-2 py-1 rounded transition-colors ${
+                                className={`text-[10px] font-mono px-2 py-1.5 rounded transition-colors ${
                                     updateInterval === int.ms 
-                                    ? 'bg-slate-700 text-white' 
-                                    : 'text-slate-400 hover:bg-[#1f2937]'
+                                    ? 'bg-blue-100 dark:bg-slate-700 text-blue-600 dark:text-white font-bold' 
+                                    : 'text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-[#1f2937]'
                                 }`}
                             >
                                 {int.label}
@@ -165,25 +174,25 @@ function Dashboard() {
                     </div>
 
                     {/* Aggregate Box */}
-                    <div className="border border-[#2a2e3f] bg-[#161b22] rounded-lg p-2 px-4 flex items-center gap-3">
+                    <div className="border border-slate-200 dark:border-[#2a2e3f] bg-slate-50 dark:bg-[#161b22] rounded-lg p-2 px-4 flex items-center gap-3 transition-colors">
                         <Activity className="text-blue-500" size={16} />
                         <div className="flex items-baseline gap-1.5">
-                            <span className="font-mono text-white font-bold text-lg">{aggregateThroughput}</span>
-                            <span className="text-sm text-slate-300 font-bold">Gbps</span>
-                            <span className="text-xs text-slate-500 ml-1">aggregate</span>
+                            <span className="font-mono text-slate-800 dark:text-white font-bold text-lg">{aggregateThroughput}</span>
+                            <span className="text-sm text-slate-600 dark:text-slate-300 font-bold">Gbps</span>
+                            <span className="text-xs text-slate-400 dark:text-slate-500 ml-1">aggregate</span>
                         </div>
                     </div>
 
                     {/* Time Division Box */}
-                    <div className="border border-[#2a2e3f] bg-[#161b22] rounded-lg p-1 flex items-center gap-1">
+                    <div className="border border-slate-200 dark:border-[#2a2e3f] bg-slate-50 dark:bg-[#161b22] rounded-lg p-1 flex items-center gap-1 transition-colors">
                         {timeRanges.map(range => (
                             <button 
                                 key={range}
                                 onClick={() => setTimeRange(range)}
                                 className={`text-xs font-mono px-3 py-1.5 rounded transition-colors ${
                                     timeRange === range 
-                                    ? 'bg-[#1e3a8a] text-blue-200 font-bold' 
-                                    : 'text-slate-400 hover:text-slate-200 hover:bg-[#1f2937]'
+                                    ? 'bg-blue-100 dark:bg-[#1e3a8a] text-blue-600 dark:text-blue-200 font-bold' 
+                                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-[#1f2937]'
                                 }`}
                             >
                                 {range}
@@ -192,16 +201,16 @@ function Dashboard() {
                     </div>
 
                     {/* Status Box */}
-                    <div className="border border-[#2a2e3f] bg-[#161b22] rounded-lg p-2 px-4 flex items-center gap-2">
+                    <div className="border border-slate-200 dark:border-[#2a2e3f] bg-slate-50 dark:bg-[#161b22] rounded-lg p-2 px-4 flex items-center gap-2 transition-colors">
                         {metrics ? (
                             <>
-                                <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"></div>
-                                <span className="text-xs font-bold text-slate-300 tracking-widest">LIVE</span>
+                                <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+                                <span className="text-xs font-bold text-slate-600 dark:text-slate-300 tracking-widest">LIVE</span>
                             </>
                         ) : (
                             <>
-                                <div className="w-2.5 h-2.5 rounded-full bg-slate-600"></div>
-                                <span className="text-xs font-bold text-slate-500 tracking-widest">WAITING</span>
+                                <div className="w-2.5 h-2.5 rounded-full bg-slate-400 dark:bg-slate-600"></div>
+                                <span className="text-xs font-bold text-slate-400 dark:text-slate-500 tracking-widest">WAITING</span>
                             </>
                         )}
                     </div>
@@ -265,47 +274,47 @@ function Dashboard() {
                     {/* VISUALIZACIONES PRINCIPALES (Fila 2) */}
                     <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-6">
                         {/* GRÁFICA PRINCIPAL (Ocupa 2 columnas en pantallas grandes) */}
-                        <div className="xl:col-span-2 bg-[#12141c] border border-[#2a2e3f] rounded-2xl p-6 shadow-2xl h-[550px] flex flex-col">
+                        <div className="xl:col-span-2 bg-white dark:bg-[#12141c] border border-slate-200 dark:border-[#2a2e3f] rounded-2xl p-6 shadow-2xl h-[550px] flex flex-col transition-colors duration-500">
                             <div className="flex flex-col justify-between items-start mb-6 gap-4">
                                 <div className="flex justify-between items-end w-full">
                                     <div>
-                                        <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
+                                        <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
                                             Throughput Over Time
                                         </h2>
-                                        <p className="text-xs text-slate-400 font-mono mt-1">Per-slice traffic · Gbps</p>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400 font-mono mt-1">Per-slice traffic · Gbps</p>
                                     </div>
-                                    <div className="flex bg-[#161b22] border border-[#2a2e3f] rounded-lg overflow-hidden">
+                                    <div className="flex bg-slate-100 dark:bg-[#161b22] border border-slate-200 dark:border-[#2a2e3f] rounded-lg overflow-hidden transition-colors">
                                         <button 
                                             onClick={() => setChartMode('stacked')} 
-                                            className={`px-3 py-1 text-xs font-mono transition-colors ${chartMode === 'stacked' ? 'bg-[#1e3a8a] text-blue-200' : 'text-slate-400 hover:bg-[#1f2937]'}`}
+                                            className={`px-3 py-1.5 text-xs font-mono transition-colors ${chartMode === 'stacked' ? 'bg-blue-100 dark:bg-[#1e3a8a] text-blue-600 dark:text-blue-200' : 'text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-[#1f2937]'}`}
                                         >
                                             Stacked
                                         </button>
                                         <button 
                                             onClick={() => setChartMode('lines')} 
-                                            className={`px-3 py-1 text-xs font-mono transition-colors ${chartMode === 'lines' ? 'bg-[#1e3a8a] text-blue-200' : 'text-slate-400 hover:bg-[#1f2937]'}`}
+                                            className={`px-3 py-1.5 text-xs font-mono transition-colors ${chartMode === 'lines' ? 'bg-blue-100 dark:bg-[#1e3a8a] text-blue-600 dark:text-blue-200' : 'text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-[#1f2937]'}`}
                                         >
                                             Lines
                                         </button>
                                     </div>
                                 </div>
                                 <div className="flex gap-4 items-center w-full justify-between">
-                                    <div className="flex bg-[#1a1d27] border border-[#2a2e3f] rounded overflow-hidden">
+                                    <div className="flex bg-slate-50 dark:bg-[#1a1d27] border border-slate-200 dark:border-[#2a2e3f] rounded overflow-hidden transition-colors">
                                         <button 
                                             onClick={() => setActiveMetric('throughput')} 
-                                            className={`px-3 py-1.5 text-[10px] font-mono transition-colors ${activeMetric === 'throughput' ? 'bg-[#3b82f6] text-white' : 'text-slate-400 hover:bg-[#1f2937]'}`}
+                                            className={`px-3 py-1.5 text-[10px] font-mono transition-colors ${activeMetric === 'throughput' ? 'bg-[#3b82f6] text-white' : 'text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-[#1f2937]'}`}
                                         >
                                             Débit
                                         </button>
                                         <button 
                                             onClick={() => setActiveMetric('latency')} 
-                                            className={`px-3 py-1.5 text-[10px] font-mono transition-colors ${activeMetric === 'latency' ? 'bg-[#3b82f6] text-white' : 'text-slate-400 hover:bg-[#1f2937]'}`}
+                                            className={`px-3 py-1.5 text-[10px] font-mono transition-colors ${activeMetric === 'latency' ? 'bg-[#3b82f6] text-white' : 'text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-[#1f2937]'}`}
                                         >
                                             Latence
                                         </button>
                                         <button 
                                             onClick={() => setActiveMetric('jitter')} 
-                                            className={`px-3 py-1.5 text-[10px] font-mono transition-colors ${activeMetric === 'jitter' ? 'bg-[#3b82f6] text-white' : 'text-slate-400 hover:bg-[#1f2937]'}`}
+                                            className={`px-3 py-1.5 text-[10px] font-mono transition-colors ${activeMetric === 'jitter' ? 'bg-[#3b82f6] text-white' : 'text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-[#1f2937]'}`}
                                         >
                                             Gigue
                                         </button>
@@ -335,23 +344,23 @@ function Dashboard() {
                             
                             <div className="flex gap-6 items-center mt-6 px-2 shrink-0">
                                 <label className="flex items-center gap-2 text-xs font-mono cursor-pointer hover:opacity-80 transition-opacity">
-                                    <div className={`w-2.5 h-2.5 rounded-full ${visibleSlices.eMBB ? 'bg-blue-500' : 'bg-slate-700'}`}></div>
-                                    <span className={visibleSlices.eMBB ? 'text-slate-300' : 'text-slate-500'}>eMBB</span>
+                                    <div className={`w-2.5 h-2.5 rounded-full ${visibleSlices.eMBB ? 'bg-blue-500' : 'bg-slate-300 dark:bg-slate-700'}`}></div>
+                                    <span className={visibleSlices.eMBB ? 'text-slate-700 dark:text-slate-300' : 'text-slate-400 dark:text-slate-500'}>eMBB</span>
                                     <input type="checkbox" checked={visibleSlices.eMBB} onChange={() => toggleSlice('eMBB')} className="hidden" />
                                 </label>
                                 <label className="flex items-center gap-2 text-xs font-mono cursor-pointer hover:opacity-80 transition-opacity">
-                                    <div className={`w-2.5 h-2.5 rounded-full ${visibleSlices.URLLC ? 'bg-orange-500' : 'bg-slate-700'}`}></div>
-                                    <span className={visibleSlices.URLLC ? 'text-slate-300' : 'text-slate-500'}>URLLC</span>
+                                    <div className={`w-2.5 h-2.5 rounded-full ${visibleSlices.URLLC ? 'bg-orange-500' : 'bg-slate-300 dark:bg-slate-700'}`}></div>
+                                    <span className={visibleSlices.URLLC ? 'text-slate-700 dark:text-slate-300' : 'text-slate-400 dark:text-slate-500'}>URLLC</span>
                                     <input type="checkbox" checked={visibleSlices.URLLC} onChange={() => toggleSlice('URLLC')} className="hidden" />
                                 </label>
                                 <label className="flex items-center gap-2 text-xs font-mono cursor-pointer hover:opacity-80 transition-opacity">
-                                    <div className={`w-2.5 h-2.5 rounded-full ${visibleSlices.mMTC ? 'bg-emerald-500' : 'bg-slate-700'}`}></div>
-                                    <span className={visibleSlices.mMTC ? 'text-slate-300' : 'text-slate-500'}>mMTC</span>
+                                    <div className={`w-2.5 h-2.5 rounded-full ${visibleSlices.mMTC ? 'bg-emerald-500' : 'bg-slate-300 dark:bg-slate-700'}`}></div>
+                                    <span className={visibleSlices.mMTC ? 'text-slate-700 dark:text-slate-300' : 'text-slate-400 dark:text-slate-500'}>mMTC</span>
                                     <input type="checkbox" checked={visibleSlices.mMTC} onChange={() => toggleSlice('mMTC')} className="hidden" />
                                 </label>
                                 <label className="flex items-center gap-2 text-xs font-mono cursor-pointer hover:opacity-80 transition-opacity">
-                                    <div className={`w-2.5 h-2.5 rounded-full ${visibleSlices.V2X ? 'bg-purple-500' : 'bg-slate-700'}`}></div>
-                                    <span className={visibleSlices.V2X ? 'text-slate-300' : 'text-slate-500'}>V2X</span>
+                                    <div className={`w-2.5 h-2.5 rounded-full ${visibleSlices.V2X ? 'bg-purple-500' : 'bg-slate-300 dark:bg-slate-700'}`}></div>
+                                    <span className={visibleSlices.V2X ? 'text-slate-700 dark:text-slate-300' : 'text-slate-400 dark:text-slate-500'}>V2X</span>
                                     <input type="checkbox" checked={visibleSlices.V2X} onChange={() => toggleSlice('V2X')} className="hidden" />
                                 </label>
                             </div>

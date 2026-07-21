@@ -18,7 +18,7 @@ export default function SliceCard({
     return (
         <div 
             onClick={() => navigate(`/slice/${id}`)}
-            className="bg-[#12141c] hover:bg-[#1a1d27] border border-[#2a2e3f] rounded-xl p-4 transition-all cursor-pointer relative overflow-hidden group"
+            className="bg-white dark:bg-[#12141c] hover:bg-slate-50 dark:hover:bg-[#1a1d27] border border-slate-200 dark:border-[#2a2e3f] rounded-xl p-4 transition-all cursor-pointer relative overflow-hidden group shadow-sm dark:shadow-none"
             style={{ borderTop: `3px solid ${color}` }}
         >
             {/* Top Row: Dot, Title, Subtitle, and Sparkline */}
@@ -26,7 +26,7 @@ export default function SliceCard({
                 <div className="flex items-start gap-2">
                     <div className="w-2.5 h-2.5 rounded-full mt-1.5" style={{ backgroundColor: color, boxShadow: `0 0 10px ${color}` }}></div>
                     <div>
-                        <h2 className="text-sm font-bold text-white tracking-wide">{title}</h2>
+                        <h2 className="text-sm font-bold text-slate-800 dark:text-white tracking-wide">{title}</h2>
                         <p className="text-[10px] text-slate-500 font-mono tracking-wider">{subtitle}</p>
                     </div>
                 </div>
@@ -52,13 +52,13 @@ export default function SliceCard({
             {/* Middle Row: Big Number, Unit, Latency */}
             <div className="flex justify-between items-end mb-2 relative z-10">
                 <div className="flex items-baseline gap-1">
-                    <span className="text-3xl font-bold font-mono text-white tracking-tighter">
+                    <span className="text-3xl font-bold font-mono text-slate-800 dark:text-white tracking-tighter">
                         {sliceData.throughput}
                     </span>
                     <span className="text-xs text-slate-500 font-bold">Mbps</span>
                 </div>
                 <div className="text-right">
-                    <span className="text-sm font-bold font-mono text-white block">
+                    <span className="text-sm font-bold font-mono text-slate-800 dark:text-white block">
                         {sliceData.latency} <span className="text-[10px] text-slate-500">ms</span>
                     </span>
                 </div>
