@@ -12,10 +12,10 @@ export default function SliceDetail() {
 
     // Determinar los colores y títulos según el slice
     const sliceInfo = {
-        embb: { title: 'eMBB', subtitle: 'High Speeds', color: '#3b82f6', prefix: 'eMBB', metricKey: 'slice1_eMBB' },
-        urllc: { title: 'URLLC', subtitle: 'Low Latency', color: '#f97316', prefix: 'URLLC', metricKey: 'slice2_URLLC' },
-        mmtc: { title: 'mMTC', subtitle: 'IoT Devices', color: '#10b981', prefix: 'mMTC', metricKey: 'slice3_mMTC' },
-        v2x: { title: 'V2X', subtitle: 'Connected Cars', color: '#a855f7', prefix: 'V2X', metricKey: 'slice4_V2X' }
+        embb: { title: 'eMBB', subtitle: 'Hauts Débits', color: '#3b82f6', prefix: 'eMBB', metricKey: 'slice1_eMBB' },
+        urllc: { title: 'URLLC', subtitle: 'Faible Latence', color: '#f97316', prefix: 'URLLC', metricKey: 'slice2_URLLC' },
+        mmtc: { title: 'mMTC', subtitle: 'Appareils IoT', color: '#10b981', prefix: 'mMTC', metricKey: 'slice3_mMTC' },
+        v2x: { title: 'V2X', subtitle: 'Voitures Connectées', color: '#a855f7', prefix: 'V2X', metricKey: 'slice4_V2X' }
     };
 
     const currentSlice = sliceInfo[sliceId.toLowerCase()];
@@ -24,7 +24,7 @@ export default function SliceDetail() {
         return (
             <div className="min-h-screen bg-[#0d1117] flex flex-col items-center justify-center text-slate-500 space-y-4">
                 <Activity className="animate-bounce" size={48} />
-                <div className="animate-pulse font-semibold tracking-widest uppercase">Waiting for telemetry...</div>
+                <div className="animate-pulse font-semibold tracking-widest uppercase">En attente de télémétrie...</div>
             </div>
         );
     }
@@ -86,10 +86,10 @@ export default function SliceDetail() {
                     <div>
                         <h1 className="text-lg md:text-xl font-bold text-white tracking-wide flex items-center gap-2">
                             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: currentSlice.color }}></div>
-                            {currentSlice.title} Detailed Telemetry
+                            Télémétrie Détaillée {currentSlice.title}
                         </h1>
                         <p className="text-xs text-slate-400 font-mono tracking-wider mt-0.5">
-                            {currentSlice.subtitle} · Real-time Metrics
+                            {currentSlice.subtitle} · Métriques en temps réel
                         </p>
                     </div>
                 </div>
@@ -100,9 +100,9 @@ export default function SliceDetail() {
                         <Users size={20} className="text-emerald-400" />
                     </div>
                     <div>
-                        <div className="text-[10px] text-slate-400 font-mono font-bold uppercase tracking-wider mb-1">Connected UEs</div>
+                        <div className="text-[10px] text-slate-400 font-mono font-bold uppercase tracking-wider mb-1">UE connectés</div>
                         <div className="text-xl font-bold font-mono text-white leading-none">
-                            {currentMetrics.connected_ues} <span className="text-xs text-slate-500 font-sans ml-1">devices</span>
+                            {currentMetrics.connected_ues} <span className="text-xs text-slate-500 font-sans ml-1">appareils</span>
                         </div>
                     </div>
                 </div>
@@ -110,10 +110,10 @@ export default function SliceDetail() {
 
             {/* CHARTS GRID */}
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
-                {renderChart(`${currentSlice.prefix}_throughput`, 'Throughput', 'Mbps', <Activity size={16} className="text-blue-400" />)}
-                {renderChart(`${currentSlice.prefix}_latency`, 'Latency', 'ms', <Zap size={16} className="text-orange-400" />)}
-                {renderChart(`${currentSlice.prefix}_jitter`, 'Jitter', 'ms', <Clock size={16} className="text-purple-400" />)}
-                {renderChart(`${currentSlice.prefix}_packetLoss`, 'Packet Loss', '%', <AlertTriangle size={16} className="text-red-400" />)}
+                {renderChart(`${currentSlice.prefix}_throughput`, 'Débit', 'Mbps', <Activity size={16} className="text-blue-400" />)}
+                {renderChart(`${currentSlice.prefix}_latency`, 'Latence', 'ms', <Zap size={16} className="text-orange-400" />)}
+                {renderChart(`${currentSlice.prefix}_jitter`, 'Gigue', 'ms', <Clock size={16} className="text-purple-400" />)}
+                {renderChart(`${currentSlice.prefix}_packetLoss`, 'Perte de Paquets', '%', <AlertTriangle size={16} className="text-red-400" />)}
             </div>
 
             {/* VISUAL COMPONENTS GRID */}

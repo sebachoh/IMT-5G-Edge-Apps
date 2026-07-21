@@ -70,7 +70,7 @@ export default function SliceCard({
                     {isLossAlert ? '↘' : '↗'} {sliceData.packet_loss}%
                 </div>
                 <div className="text-[10px] text-slate-500 font-mono tracking-wide">
-                    SLA 30ms · loss {sliceData.packet_loss}%
+                    SLA 30ms · perte {sliceData.packet_loss}%
                 </div>
             </div>
 

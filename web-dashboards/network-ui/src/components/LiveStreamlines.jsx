@@ -109,11 +109,11 @@ export default function LiveStreamlines({ filterSlice }) {
         ];
 
     return (
-        <div className="bg-[#12141c] border border-[#2a2e3f] rounded-2xl p-6 h-full flex flex-col">
-            <h3 className="text-sm font-bold text-slate-300 mb-1 shrink-0">Live Streamlines</h3>
-            <p className="text-[10px] text-slate-500 font-mono mb-4 shrink-0">Particle speed + density ≈ slice load</p>
+        <div className="bg-white dark:bg-[#12141c] border border-slate-200 dark:border-[#2a2e3f] rounded-2xl p-6 h-full flex flex-col transition-colors duration-500">
+            <h3 className="text-sm font-bold text-slate-800 dark:text-slate-300 mb-1 shrink-0">Lignes de courant en direct</h3>
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 font-mono mb-4 shrink-0">Vitesse + densité des particules ≈ charge de la tranche</p>
             
-            <div className="flex-1 w-full relative min-h-0 overflow-hidden rounded border border-slate-800 bg-[#0d1017]">
+            <div className="flex-1 w-full relative min-h-0 overflow-hidden rounded border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#0d1017] transition-colors duration-500">
                 <canvas 
                     ref={canvasRef} 
                     width={800} 
@@ -127,7 +127,7 @@ export default function LiveStreamlines({ filterSlice }) {
                 {metrics && legendItems.map(item => (
                     <div key={item.id} className="flex items-center gap-1.5 text-xs font-mono">
                         <div className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }}></div>
-                        <span className="text-slate-500">{item.id} · <span className="text-slate-300">{item.val}</span></span>
+                        <span className="text-slate-600 dark:text-slate-500">{item.id} · <span className="text-slate-800 dark:text-slate-300 font-semibold">{item.val}</span></span>
                     </div>
                 ))}
             </div>

@@ -81,8 +81,8 @@ export default function FluxFlowDiagram() {
 
     return (
         <div className="bg-[#12141c] border border-[#2a2e3f] rounded-2xl p-6 h-full flex flex-col">
-            <h3 className="text-sm font-bold text-slate-300 mb-1">Flux Flow Diagram</h3>
-            <p className="text-[10px] text-slate-500 font-mono mb-4">Pasa el ratón sobre un Slice para aislar su tráfico</p>
+            <h3 className="text-sm font-bold text-slate-300 mb-1">Diagramme de flux</h3>
+            <p className="text-[10px] text-slate-500 font-mono mb-4">Survolez une tranche pour isoler son trafic</p>
             
             <div className="flex-1 w-full relative min-h-[200px]">
                 <svg viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none" className="w-full h-full absolute inset-0">

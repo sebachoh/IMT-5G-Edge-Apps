@@ -77,10 +77,10 @@ function Dashboard({ isDarkMode, setIsDarkMode }) {
                     </div>
                     <div>
                         <h1 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white tracking-wide">
-                            Network Slice Flux
+                            Flux de Tranches Réseau
                         </h1>
                         <p className="text-xs text-slate-500 dark:text-slate-400 font-mono tracking-wider mt-0.5">
-                            5G Core · Multi-Slice Traffic Monitor
+                            Cœur 5G · Moniteur de Trafic Multi-Tranches
                         </p>
                     </div>
                 </div>
@@ -91,10 +91,11 @@ function Dashboard({ isDarkMode, setIsDarkMode }) {
                     {/* Dark Mode Toggle */}
                     <button 
                         onClick={() => setIsDarkMode(!isDarkMode)}
-                        className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors duration-300 ${isDarkMode ? 'bg-[#3b82f6]' : 'bg-slate-300'}`}
+                        className={`relative inline-flex h-8 w-14 items-center rounded-full p-1 transition-all duration-300 focus:outline-none ${isDarkMode ? 'bg-[#1e293b] border border-[#334155]' : 'bg-slate-200 border border-slate-300 shadow-inner'}`}
+                        aria-label="Toggle Dark Mode"
                     >
-                        <span className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-md transition-transform duration-300 flex items-center justify-center ${isDarkMode ? 'translate-x-6' : 'translate-x-1'}`}>
-                            {isDarkMode ? <Moon className="h-3 w-3 text-[#3b82f6]" /> : <Sun className="h-3 w-3 text-slate-400" />}
+                        <span className={`flex h-6 w-6 transform items-center justify-center rounded-full shadow-md transition-transform duration-300 ${isDarkMode ? 'translate-x-6 bg-[#0d1117]' : 'translate-x-0 bg-white'}`}>
+                            {isDarkMode ? <Moon className="h-3.5 w-3.5 text-blue-400" /> : <Sun className="h-3.5 w-3.5 text-amber-500" />}
                         </span>
                     </button>
                     
@@ -114,7 +115,7 @@ function Dashboard({ isDarkMode, setIsDarkMode }) {
                         {isTestMenuOpen && (
                             <div className="absolute right-0 top-full mt-2 w-64 bg-white dark:bg-[#1e293b] border border-slate-200 dark:border-[#334155] rounded-xl shadow-2xl overflow-hidden z-50">
                                 <div className="p-2 bg-slate-50 dark:bg-[#0f172a] border-b border-slate-200 dark:border-[#334155]">
-                                    <span className="text-xs font-bold text-slate-700 dark:text-slate-300 ml-2">Performance Tests</span>
+                                    <span className="text-xs font-bold text-slate-700 dark:text-slate-300 ml-2">Tests de Performance</span>
                                 </div>
                                 <div className="p-2 space-y-1">
                                     {activeTest && (
@@ -123,32 +124,32 @@ function Dashboard({ isDarkMode, setIsDarkMode }) {
                                             className="w-full text-left px-3 py-2 text-xs font-mono text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 rounded flex items-center gap-2"
                                         >
                                             <div className="w-1.5 h-1.5 rounded-full bg-red-500"></div>
-                                            Stop Current Test
+                                            Arrêter le Test Actuel
                                         </button>
                                     )}
                                     <button 
                                         onClick={() => { startSimulationTest('eMBB_4k_video'); setIsTestMenuOpen(false); }}
                                         className={`w-full text-left px-3 py-2 text-xs font-mono rounded hover:bg-slate-100 dark:hover:bg-[#334155] ${activeTest === 'eMBB_4k_video' ? 'bg-slate-100 dark:bg-[#334155] text-blue-500 dark:text-blue-400' : 'text-slate-600 dark:text-slate-300'}`}
                                     >
-                                        🎬 eMBB: 2x 4K@60FPS Stream
+                                        🎬 eMBB: Flux 2x 4K@60FPS
                                     </button>
                                     <button 
                                         onClick={() => { startSimulationTest('URLLC_critical_load'); setIsTestMenuOpen(false); }}
                                         className={`w-full text-left px-3 py-2 text-xs font-mono rounded hover:bg-slate-100 dark:hover:bg-[#334155] ${activeTest === 'URLLC_critical_load' ? 'bg-slate-100 dark:bg-[#334155] text-orange-500 dark:text-orange-400' : 'text-slate-600 dark:text-slate-300'}`}
                                     >
-                                        ⚡ URLLC: Critical Load Influx
+                                        ⚡ URLLC: Afflux de Charge Critique
                                     </button>
                                     <button 
                                         onClick={() => { startSimulationTest('mMTC_10k_ues'); setIsTestMenuOpen(false); }}
                                         className={`w-full text-left px-3 py-2 text-xs font-mono rounded hover:bg-slate-100 dark:hover:bg-[#334155] ${activeTest === 'mMTC_10k_ues' ? 'bg-slate-100 dark:bg-[#334155] text-emerald-500 dark:text-emerald-400' : 'text-slate-600 dark:text-slate-300'}`}
                                     >
-                                        📡 mMTC: 10,000 UEs Storm
+                                        📡 mMTC: Tempête de 10 000 UE
                                     </button>
                                     <button 
                                         onClick={() => { startSimulationTest('V2X_emergency_brake'); setIsTestMenuOpen(false); }}
                                         className={`w-full text-left px-3 py-2 text-xs font-mono rounded hover:bg-slate-100 dark:hover:bg-[#334155] ${activeTest === 'V2X_emergency_brake' ? 'bg-slate-100 dark:bg-[#334155] text-purple-500 dark:text-purple-400' : 'text-slate-600 dark:text-slate-300'}`}
                                     >
-                                        🚗 V2X: Emergency Brake Broadcast
+                                        🚗 V2X: Diffusion de Freinage d'Urgence
                                     </button>
                                 </div>
                             </div>
@@ -157,7 +158,7 @@ function Dashboard({ isDarkMode, setIsDarkMode }) {
 
                     {/* Interval Selector */}
                     <div className="border border-slate-200 dark:border-[#2a2e3f] bg-slate-50 dark:bg-[#161b22] rounded-lg p-1 flex items-center gap-1 transition-colors">
-                        <span className="text-[10px] text-slate-500 font-mono px-2">Update rate:</span>
+                        <span className="text-[10px] text-slate-500 font-mono px-2">Taux d'actualisation :</span>
                         {intervals.map(int => (
                             <button 
                                 key={int.label}
@@ -179,7 +180,7 @@ function Dashboard({ isDarkMode, setIsDarkMode }) {
                         <div className="flex items-baseline gap-1.5">
                             <span className="font-mono text-slate-800 dark:text-white font-bold text-lg">{aggregateThroughput}</span>
                             <span className="text-sm text-slate-600 dark:text-slate-300 font-bold">Gbps</span>
-                            <span className="text-xs text-slate-400 dark:text-slate-500 ml-1">aggregate</span>
+                            <span className="text-xs text-slate-400 dark:text-slate-500 ml-1">agrégé</span>
                         </div>
                     </div>
 
@@ -205,12 +206,12 @@ function Dashboard({ isDarkMode, setIsDarkMode }) {
                         {metrics ? (
                             <>
                                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
-                                <span className="text-xs font-bold text-slate-600 dark:text-slate-300 tracking-widest">LIVE</span>
+                                <span className="text-xs font-bold text-slate-600 dark:text-slate-300 tracking-widest">EN DIRECT</span>
                             </>
                         ) : (
                             <>
                                 <div className="w-2.5 h-2.5 rounded-full bg-slate-400 dark:bg-slate-600"></div>
-                                <span className="text-xs font-bold text-slate-400 dark:text-slate-500 tracking-widest">WAITING</span>
+                                <span className="text-xs font-bold text-slate-400 dark:text-slate-500 tracking-widest">EN ATTENTE</span>
                             </>
                         )}
                     </div>
@@ -232,7 +233,7 @@ function Dashboard({ isDarkMode, setIsDarkMode }) {
                         <SliceCard 
                             id="embb"
                             title="eMBB" 
-                            subtitle="High Speeds" 
+                            subtitle="Hauts Débits" 
                             color="#3b82f6" 
                             activeMetric={activeMetric}
                             sliceData={metrics.slice1_eMBB}
@@ -242,7 +243,7 @@ function Dashboard({ isDarkMode, setIsDarkMode }) {
                         <SliceCard 
                             id="urllc"
                             title="URLLC" 
-                            subtitle="Low Latency" 
+                            subtitle="Faible Latence" 
                             color="#f97316" 
                             activeMetric={activeMetric}
                             sliceData={metrics.slice2_URLLC}
@@ -252,7 +253,7 @@ function Dashboard({ isDarkMode, setIsDarkMode }) {
                         <SliceCard 
                             id="mmtc"
                             title="mMTC" 
-                            subtitle="IoT Devices" 
+                            subtitle="Appareils IoT" 
                             color="#10b981" 
                             activeMetric={activeMetric}
                             sliceData={metrics.slice3_mMTC}
@@ -262,7 +263,7 @@ function Dashboard({ isDarkMode, setIsDarkMode }) {
                         <SliceCard 
                             id="v2x"
                             title="V2X" 
-                            subtitle="Connected Cars" 
+                            subtitle="Voitures Connectées" 
                             color="#a855f7" 
                             activeMetric={activeMetric}
                             sliceData={metrics.slice4_V2X}
@@ -279,22 +280,22 @@ function Dashboard({ isDarkMode, setIsDarkMode }) {
                                 <div className="flex justify-between items-end w-full">
                                     <div>
                                         <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
-                                            Throughput Over Time
+                                            Débit au Fil du Temps
                                         </h2>
-                                        <p className="text-xs text-slate-500 dark:text-slate-400 font-mono mt-1">Per-slice traffic · Gbps</p>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400 font-mono mt-1">Trafic par tranche · Gbps</p>
                                     </div>
                                     <div className="flex bg-slate-100 dark:bg-[#161b22] border border-slate-200 dark:border-[#2a2e3f] rounded-lg overflow-hidden transition-colors">
                                         <button 
                                             onClick={() => setChartMode('stacked')} 
                                             className={`px-3 py-1.5 text-xs font-mono transition-colors ${chartMode === 'stacked' ? 'bg-blue-100 dark:bg-[#1e3a8a] text-blue-600 dark:text-blue-200' : 'text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-[#1f2937]'}`}
                                         >
-                                            Stacked
+                                            Empilé
                                         </button>
                                         <button 
                                             onClick={() => setChartMode('lines')} 
                                             className={`px-3 py-1.5 text-xs font-mono transition-colors ${chartMode === 'lines' ? 'bg-blue-100 dark:bg-[#1e3a8a] text-blue-600 dark:text-blue-200' : 'text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-[#1f2937]'}`}
                                         >
-                                            Lines
+                                            Lignes
                                         </button>
                                     </div>
                                 </div>

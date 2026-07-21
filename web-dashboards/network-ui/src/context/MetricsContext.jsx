@@ -42,7 +42,7 @@ export function MetricsProvider({ children }) {
                     V2X_ues: data.slice4_V2X.connected_ues,
                 };
                 const newHistory = [...prev, newPoint];
-                if (newHistory.length > 50) newHistory.shift();
+                if (newHistory.length > 86400) newHistory.shift(); // Support up to 24 hours at 1s intervals
                 return newHistory;
             });
         });

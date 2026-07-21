@@ -28,16 +28,16 @@ export default function IntensityHeatmap({ filterSlice }) {
     const paddedHistory = [...Array(Math.max(0, 30 - heatmapHistory.length)).fill(null), ...heatmapHistory];
 
     return (
-        <div className="bg-[#12141c] border border-[#2a2e3f] rounded-2xl p-6 h-full flex flex-col">
-            <h3 className="text-sm font-bold text-slate-300 mb-1">Flux Intensity Heatmap</h3>
-            <p className="text-[10px] text-slate-500 font-mono mb-4">Normalized load per slice · last 30 samples</p>
+        <div className="bg-white dark:bg-[#12141c] border border-slate-200 dark:border-[#2a2e3f] rounded-2xl p-6 h-full flex flex-col transition-colors duration-500">
+            <h3 className="text-sm font-bold text-slate-800 dark:text-slate-300 mb-1">Carte thermique de l'intensité du flux</h3>
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 font-mono mb-4">Charge normalisée par tranche · 30 derniers échantillons</p>
 
             <div className="flex-1 flex flex-col justify-center gap-2">
                 {slices.map((slice) => (
                     <div key={slice.id} className="flex items-center gap-4">
                         <div className="w-16 flex items-center gap-2">
                             <div className="w-2 h-2 rounded-full" style={{ backgroundColor: slice.color }}></div>
-                            <span className="text-[10px] text-slate-400 font-mono">{slice.id}</span>
+                            <span className="text-[10px] text-slate-600 dark:text-slate-400 font-mono font-semibold">{slice.id}</span>
                         </div>
                         <div className="flex flex-1 gap-1">
                             {paddedHistory.map((point, i) => {
@@ -53,7 +53,7 @@ export default function IntensityHeatmap({ filterSlice }) {
                                             opacity: opacity,
                                             boxShadow: opacity > 0.8 ? `0 0 8px ${slice.color}` : 'none'
                                         }}
-                                        title={point ? `${slice.id}: ${val} Mbps` : 'No data'}
+                                        title={point ? `${slice.id}: ${val} Mbps` : 'Aucune donnée'}
                                     ></div>
                                 );
                             })}
@@ -62,20 +62,20 @@ export default function IntensityHeatmap({ filterSlice }) {
                 ))}
             </div>
 
-            <div className="flex justify-between items-center mt-6 pl-[80px] text-[10px] text-slate-500 font-mono">
-                <span>30 samples ago</span>
+            <div className="flex justify-between items-center mt-6 pl-[80px] text-[10px] text-slate-600 dark:text-slate-500 font-mono">
+                <span>il y a 30 échantillons</span>
                 <div className="flex items-center gap-2">
-                    <span>low</span>
+                    <span>faible</span>
                     <div className="flex gap-1">
-                        <div className="w-4 h-2 bg-slate-400 opacity-20"></div>
-                        <div className="w-4 h-2 bg-slate-400 opacity-40"></div>
-                        <div className="w-4 h-2 bg-slate-400 opacity-60"></div>
-                        <div className="w-4 h-2 bg-slate-400 opacity-80"></div>
-                        <div className="w-4 h-2 bg-slate-400 opacity-100"></div>
+                        <div className="w-4 h-2 bg-slate-400 dark:bg-slate-400 opacity-20 rounded-sm"></div>
+                        <div className="w-4 h-2 bg-slate-400 dark:bg-slate-400 opacity-40 rounded-sm"></div>
+                        <div className="w-4 h-2 bg-slate-400 dark:bg-slate-400 opacity-60 rounded-sm"></div>
+                        <div className="w-4 h-2 bg-slate-400 dark:bg-slate-400 opacity-80 rounded-sm"></div>
+                        <div className="w-4 h-2 bg-slate-400 dark:bg-slate-400 opacity-100 rounded-sm"></div>
                     </div>
-                    <span>high</span>
+                    <span>élevé</span>
                 </div>
-                <span>now</span>
+                <span>maintenant</span>
             </div>
         </div>
     );
