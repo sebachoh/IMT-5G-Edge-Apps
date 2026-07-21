@@ -21,7 +21,7 @@ export default function App() {
 
   // Socket Connection
   useEffect(() => {
-    const socket = io('http://localhost:3001');
+    const socket = io('http://100.77.155.100:3001');
     socket.on('connect', () => setConnected(true));
     socket.on('disconnect', () => setConnected(false));
     socket.on('vitals_update', (data) => {
@@ -84,8 +84,8 @@ export default function App() {
         {/* Cameras Section */}
         <section className="lg:col-span-8 flex flex-col gap-4">
           <div className="glass-panel p-4 flex-1 flex flex-col sm:flex-row gap-4 min-h-[400px]">
-             <VideoPlayer streamUrl="http://localhost:8000/live/camera.flv" title="Caméra Principale" />
-             <VideoPlayer streamUrl="http://localhost:8000/live/camera2.flv" title="Caméra Secondaire" />
+             <VideoPlayer streamUrl="http://100.77.155.100:8000/live/camera.flv" title="Caméra Principale" />
+             <VideoPlayer streamUrl="http://100.77.155.100:8000/live/camera2.flv" title="Caméra Secondaire" />
           </div>
         </section>
 
