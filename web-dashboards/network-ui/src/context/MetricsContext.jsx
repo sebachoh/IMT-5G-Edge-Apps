@@ -10,12 +10,45 @@ export function MetricsProvider({ children }) {
     const [history, setHistory] = useState([]);
 
     useEffect(() => {
+        socket.on('history_sync', (historyDataArray) => {
+            const formattedHistory = historyDataArray.map(data => ({
+                time: new Date(data.timestamp).toLocaleTimeString('en-US', { hour12: false, hour: "numeric", minute: "numeric", second: "numeric" }),
+                // eMBB
+                eMBB_throughput: data.slice1_eMBB.throughput,
+                eMBB_latency: data.slice1_eMBB.latency,
+                eMBB_jitter: data.slice1_eMBB.jitter,
+                eMBB_packetLoss: data.slice1_eMBB.packet_loss,
+                eMBB_ues: data.slice1_eMBB.connected_ues,
+                // URLLC
+                URLLC_throughput: data.slice2_URLLC.throughput,
+                URLLC_latency: data.slice2_URLLC.latency,
+                URLLC_jitter: data.slice2_URLLC.jitter,
+                URLLC_packetLoss: data.slice2_URLLC.packet_loss,
+                URLLC_ues: data.slice2_URLLC.connected_ues,
+                // mMTC
+                mMTC_throughput: data.slice3_mMTC.throughput,
+                mMTC_latency: data.slice3_mMTC.latency,
+                mMTC_jitter: data.slice3_mMTC.jitter,
+                mMTC_packetLoss: data.slice3_mMTC.packet_loss,
+                mMTC_ues: data.slice3_mMTC.connected_ues,
+                // V2X
+                V2X_throughput: data.slice4_V2X.throughput,
+                V2X_latency: data.slice4_V2X.latency,
+                V2X_jitter: data.slice4_V2X.jitter,
+                V2X_packetLoss: data.slice4_V2X.packet_loss,
+                V2X_ues: data.slice4_V2X.connected_ues,
+            }));
+            setHistory(formattedHistory);
+        });
+
         socket.on('slices_metrics', (data) => {
             setMetrics(data);
 
             setHistory(prev => {
                 const newPoint = {
-                    time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: "numeric", minute: "numeric", second: "numeric" }),
+                    time: data.timestamp 
+                        ? new Date(data.timestamp).toLocaleTimeString('en-US', { hour12: false, hour: "numeric", minute: "numeric", second: "numeric" })
+                        : new Date().toLocaleTimeString('en-US', { hour12: false, hour: "numeric", minute: "numeric", second: "numeric" }),
                     // eMBB
                     eMBB_throughput: data.slice1_eMBB.throughput,
                     eMBB_latency: data.slice1_eMBB.latency,
@@ -48,6 +81,7 @@ export function MetricsProvider({ children }) {
         });
 
         return () => {
+            socket.off('history_sync');
             socket.off('slices_metrics');
         };
     }, []);

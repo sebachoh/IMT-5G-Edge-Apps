@@ -22,11 +22,15 @@ const io = new Server(server, {
 let simulationMode = 'normal';
 let customConfig = null;
 let intervalId = null;
+const historyCache = []; // Cache to store the last 24h of data points
 
 // Lógica de Sockets separada
 io.on('connection', (socket) => {
     console.log('🟢 Nuevo Network Dashboard conectado:', socket.id);
     
+    // Send history to new clients immediately
+    socket.emit('history_sync', historyCache);
+
     socket.on('set_simulation_mode', (config) => {
         console.log(`⚡ Cambio de modo de simulación a: ${config.mode}`);
         simulationMode = config.mode;
@@ -49,6 +53,11 @@ function startTelemetry(intervalMs = 1000) {
     if(intervalId) clearInterval(intervalId);
     intervalId = setInterval(() => {
         const data = generateMockSliceData(simulationMode, customConfig);
+        data.timestamp = Date.now();
+        
+        historyCache.push(data);
+        if (historyCache.length > 86400) historyCache.shift(); // Max 24h of 1s ticks
+
         io.emit('slices_metrics', data);
     }, intervalMs);
 }
