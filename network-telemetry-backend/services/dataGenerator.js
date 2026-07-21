@@ -29,11 +29,12 @@ function measureRealNetwork() {
             // Bytes a Megabits (Bytes * 8 / 1,000,000)
             let mbps = (deltaBytes * 8) / 1000000;
             realThroughputMbps = parseFloat(mbps.toFixed(2));
+            console.log(`[DEBUG] Tráfico Físico Real: ${realThroughputMbps} Mbps | DeltaBytes: ${deltaBytes}`);
         }
         
         previousBytes = currentTotalBytes;
     } catch (e) {
-        // Si estamos en local (Mac) o falló el montaje, usamos un valor por defecto o 0
+        console.error("Error leyendo interfaces:", e.message);
         realThroughputMbps = 0;
     }
 }
@@ -43,14 +44,14 @@ setInterval(measureRealNetwork, 1000);
 
 function generateNormalData() {
     return {
-        // Slice 1: eMBB (Aquí inyectamos el Tráfico Real)
+        // Slice 1: eMBB (SOLO Tráfico Real, 0 datos falsos)
         slice1_eMBB: { 
-            throughput: realThroughputMbps > 0 ? realThroughputMbps : (Math.floor(Math.random() * 500) + 500), 
+            throughput: realThroughputMbps, 
             latency: Math.floor(Math.random() * 15) + 10, 
             jitter: Math.floor(Math.random() * 5) + 1, 
             packet_loss: (Math.random() * 0.1).toFixed(2), 
             reliability: 99.9, 
-            connected_ues: realThroughputMbps > 0 ? 2 : 120 // 2 si estamos mostrando las 2 cámaras
+            connected_ues: 2 // 2 cámaras
         },
         // Slice 2: URLLC
         slice2_URLLC: { throughput: Math.floor(Math.random() * 50) + 100, latency: Math.floor(Math.random() * 2) + 1, jitter: Math.floor(Math.random() * 2), packet_loss: 0.00, reliability: 99.999, connected_ues: 20 },
