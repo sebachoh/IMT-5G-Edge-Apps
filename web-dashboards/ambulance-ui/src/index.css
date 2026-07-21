@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Light Mode Variables (using RGBA for correct glassmorphism) */
+  :root {
+    --color-bg: #f1f5f9;
+    --color-panel: rgba(255, 255, 255, 0.65);
+    --color-border: rgba(226, 232, 240, 0.8);
+    --color-text: #0f172a;
+    --color-text-muted: #64748b;
+  }
+  
+  /* Dark Mode Variables */
+  .dark {
+    --color-bg: #0a0a0b;
+    --color-panel: rgba(20, 20, 22, 0.65);
+    --color-border: rgba(39, 39, 42, 0.8);
+    --color-text: #f3f4f6;
+    --color-text-muted: #9ca3af;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    @apply antialiased font-sans transition-colors duration-500;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    background-color: var(--color-panel);
+    border-color: var(--color-border);
+    @apply backdrop-blur-xl border rounded-2xl shadow-lg transition-colors duration-500;
+  }
+}

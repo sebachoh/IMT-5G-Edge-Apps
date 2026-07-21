@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # 1. IoT Message Broker
+  mqtt-broker:
+    image: eclipse-mosquitto:latest
+    container_name: edge_mqtt_broker
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./services/mqtt-broker/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    networks:
+      - edge-net
+    restart: always
+
+  # 2. eMBB Slice - Video Processing
+  media-server:
+    build:
+      context: ./services/media-server
+    container_name: edge_media_server
+    ports:
+      - "1935:1935" # RTMP Input from cameras/5G
+      - "8000:8000" # HTTP-FLV Output to React Dashboard
+    networks:
+      - edge-net
+    restart: unless-stopped
+
+  # 3. URLLC Slice - Telemetry Processing
+  ambulance-backend:
+    build:
+      context: ./services/ambulance-backend
+    container_name: edge_ambulance_backend
+    environment:
+      - MQTT_BROKER_URL=mqtt://mqtt-broker:1883
+      - PORT=3001
+    ports:
+      - "3001:3001" # WebSocket Output to React Dashboard
+    depends_on:
+      - mqtt-broker
+    networks:
+      - edge-net
+    restart: unless-stopped
+
+networks:
+  edge-net:
+    driver: bridge
