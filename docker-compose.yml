@@ -53,6 +53,28 @@ services:
       - edge-net
     restart: unless-stopped
 
+  # 5. Network Slicing Telemetry Backend
+  network-telemetry:
+    build:
+      context: ./network-telemetry-backend
+    container_name: edge_network_telemetry
+    ports:
+      - "4000:4000" # WebSocket Telemetry
+    networks:
+      - edge-net
+    restart: unless-stopped
+
+  # 6. React Frontend - Network Dashboard
+  network-ui:
+    build:
+      context: ./web-dashboards/network-ui
+    container_name: edge_network_ui
+    ports:
+      - "8080:80" # NGINX HTTP Port for Network UI
+    networks:
+      - edge-net
+    restart: unless-stopped
+
 networks:
   edge-net:
     driver: bridge
