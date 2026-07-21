@@ -81,7 +81,7 @@ services:
       -stream_loop -1 -re -i /video.mp4
       -c:v libx264 -preset ultrafast -b:v 800k -vf scale=854:480 -r 20
       -c:a aac
-      -f flv rtmp://media-server:1935/live/ambulance_cam_1
+      -f flv rtmp://media-server:1935/live/camera
     depends_on:
       - media-server
     networks:
@@ -97,7 +97,7 @@ services:
       -stream_loop -1 -re -i /video.mp4
       -c:v libx264 -preset ultrafast -b:v 800k -vf scale=854:480 -r 20
       -c:a aac
-      -f flv rtmp://media-server:1935/live/ambulance_cam_2
+      -f flv rtmp://media-server:1935/live/camera2
     depends_on:
       - media-server
     networks:
