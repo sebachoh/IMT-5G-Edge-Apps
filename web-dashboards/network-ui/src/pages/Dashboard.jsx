@@ -376,7 +376,55 @@ function Dashboard({ isDarkMode, setIsDarkMode }) {
                                 <IntensityHeatmap />
                             </div>
                         </div>
-                    </div>  </div>
+                    </div>
+
+                    {/* VALIDACIÓN HÍBRIDA & DIAGRAMA DE FLUJO (Fila 3) */}
+                    <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-6">
+                        {/* Panel de Validación Cruzada (Core 5G vs Edge MEC) */}
+                        <div className="bg-white dark:bg-[#12141c] border border-slate-200 dark:border-[#2a2e3f] rounded-2xl p-6 shadow-2xl flex flex-col justify-between transition-colors duration-500">
+                            <div>
+                                <h3 className="text-sm font-bold text-slate-800 dark:text-slate-300 mb-1 flex items-center gap-2">
+                                    <Activity className="text-blue-500" size={16} />
+                                    Validation de Flux Hybride (Core 5G vs Edge MEC)
+                                </h3>
+                                <p className="text-[10px] text-slate-500 dark:text-slate-400 font-mono mb-4">
+                                    Comparaison du trafic capturé dans le tunnel GTP-U (Core) vs le trafic physique reçu (Edge)
+                                </p>
+                            </div>
+                            
+                            <div className="space-y-4 my-2">
+                                <div className="bg-slate-50 dark:bg-[#161b22] border border-slate-200 dark:border-[#2a2e3f] rounded-xl p-4">
+                                    <div className="text-xs font-semibold text-slate-500 mb-1">TUNNEL N3 (GTP-U CORE 5G)</div>
+                                    <div className="flex justify-between items-baseline">
+                                        <span className="font-mono text-2xl font-bold text-blue-600 dark:text-blue-400">
+                                            {((metrics.validation_metrics?.core_downlink || 0) + (metrics.validation_metrics?.core_uplink || 0)).toFixed(2)}
+                                        </span>
+                                        <span className="text-xs text-slate-400">Mbps (DL: {metrics.validation_metrics?.core_downlink || 0} / UL: {metrics.validation_metrics?.core_uplink || 0})</span>
+                                    </div>
+                                </div>
+                                
+                                <div className="bg-slate-50 dark:bg-[#161b22] border border-slate-200 dark:border-[#2a2e3f] rounded-xl p-4">
+                                    <div className="text-xs font-semibold text-slate-500 mb-1">INTERCEPTION PHY MEC (EDGE SERVER)</div>
+                                    <div className="flex justify-between items-baseline">
+                                        <span className="font-mono text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+                                            {(metrics.validation_metrics?.edge_physical_throughput || 0).toFixed(2)}
+                                        </span>
+                                        <span className="text-xs text-slate-400">Mbps (enp0s25 / br-*)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className="text-[10px] text-slate-400 dark:text-slate-500 font-mono border-t border-slate-100 dark:border-[#2a2e3f] pt-4 mt-2">
+                                * Écart attendu : Le trafic local inter-docker sur le Edge n'est pas vu par le tunnel N3.
+                            </div>
+                        </div>
+
+                        {/* Diagramme de flux (FluxFlowDiagram) */}
+                        <div className="xl:col-span-2">
+                            <FluxFlowDiagram />
+                        </div>
+                    </div>
+                </div>
             )}
             </div>
         </div>

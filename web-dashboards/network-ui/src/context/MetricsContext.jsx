@@ -37,6 +37,10 @@ export function MetricsProvider({ children }) {
                 V2X_jitter: data.slice4_V2X.jitter,
                 V2X_packetLoss: data.slice4_V2X.packet_loss,
                 V2X_ues: data.slice4_V2X.connected_ues,
+                // Validation Metrics
+                edge_throughput: data.validation_metrics?.edge_physical_throughput || 0,
+                core_dl: data.validation_metrics?.core_downlink || 0,
+                core_ul: data.validation_metrics?.core_uplink || 0,
             }));
             setHistory(formattedHistory);
         });
@@ -73,6 +77,10 @@ export function MetricsProvider({ children }) {
                     V2X_jitter: data.slice4_V2X.jitter,
                     V2X_packetLoss: data.slice4_V2X.packet_loss,
                     V2X_ues: data.slice4_V2X.connected_ues,
+                    // Validation Metrics
+                    edge_throughput: data.validation_metrics?.edge_physical_throughput || 0,
+                    core_dl: data.validation_metrics?.core_downlink || 0,
+                    core_ul: data.validation_metrics?.core_uplink || 0,
                 };
                 const newHistory = [...prev, newPoint];
                 if (newHistory.length > 86400) newHistory.shift(); // Support up to 24 hours at 1s intervals
