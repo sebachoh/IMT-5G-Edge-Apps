@@ -3,16 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Activity, Zap, Cpu, Car, Moon, Sun } from 'lucide-react';
 import { useMetrics } from '../context/MetricsContext';
-import LoadTestPanel from '../components/LoadTestPanel';
 import SliceCard from '../components/SliceCard';
 import LiveStreamlines from '../components/LiveStreamlines';
 import IntensityHeatmap from '../components/IntensityHeatmap';
 
 function Dashboard({ isDarkMode, setIsDarkMode }) {
-    const navigate = useNavigate();
-    const { metrics, history, setUpdateInterval, activeTest, startSimulationTest } = useMetrics();
+    const { metrics, history, setUpdateInterval } = useMetrics();
 
-    const [isTestMenuOpen, setIsTestMenuOpen] = useState(false);
     const [activeMetric, setActiveMetric] = useState('throughput');
     const [chartMode, setChartMode] = useState('lines'); // 'stacked' | 'lines'
 
@@ -97,63 +94,7 @@ function Dashboard({ isDarkMode, setIsDarkMode }) {
                             {isDarkMode ? <Moon className="h-3.5 w-3.5 text-blue-400" /> : <Sun className="h-3.5 w-3.5 text-amber-500" />}
                         </span>
                     </button>
-                    
-                    <div className="relative">
-                        <button 
-                            onClick={() => setIsTestMenuOpen(!isTestMenuOpen)}
-                            className={`border px-3 py-1.5 text-[10px] font-mono rounded-lg transition-colors flex items-center gap-2 ${
-                                activeTest 
-                                ? 'bg-red-500/10 border-red-500/50 text-red-500 dark:text-red-400' 
-                                : 'bg-slate-100 dark:bg-[#1e293b] border-slate-200 dark:border-[#334155] hover:bg-slate-200 dark:hover:bg-[#334155] text-slate-600 dark:text-slate-300'
-                            }`}
-                        >
-                            {activeTest && <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></div>}
-                            Tests {activeTest && `(${activeTest.split('_')[0]})`}
-                        </button>
 
-                        {isTestMenuOpen && (
-                            <div className="absolute right-0 top-full mt-2 w-64 bg-white dark:bg-[#1e293b] border border-slate-200 dark:border-[#334155] rounded-xl shadow-2xl overflow-hidden z-50">
-                                <div className="p-2 bg-slate-50 dark:bg-[#0f172a] border-b border-slate-200 dark:border-[#334155]">
-                                    <span className="text-xs font-bold text-slate-700 dark:text-slate-300 ml-2">Tests de Performance</span>
-                                </div>
-                                <div className="p-2 space-y-1">
-                                    {activeTest && (
-                                        <button 
-                                            onClick={() => { startSimulationTest(null); setIsTestMenuOpen(false); }}
-                                            className="w-full text-left px-3 py-2 text-xs font-mono text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 rounded flex items-center gap-2"
-                                        >
-                                            <div className="w-1.5 h-1.5 rounded-full bg-red-500"></div>
-                                            Arrêter le Test Actuel
-                                        </button>
-                                    )}
-                                    <button 
-                                        onClick={() => { startSimulationTest('eMBB_4k_video'); setIsTestMenuOpen(false); }}
-                                        className={`w-full text-left px-3 py-2 text-xs font-mono rounded hover:bg-slate-100 dark:hover:bg-[#334155] ${activeTest === 'eMBB_4k_video' ? 'bg-slate-100 dark:bg-[#334155] text-blue-500 dark:text-blue-400' : 'text-slate-600 dark:text-slate-300'}`}
-                                    >
-                                        🎬 eMBB: Flux 2x 4K@60FPS
-                                    </button>
-                                    <button 
-                                        onClick={() => { startSimulationTest('URLLC_critical_load'); setIsTestMenuOpen(false); }}
-                                        className={`w-full text-left px-3 py-2 text-xs font-mono rounded hover:bg-slate-100 dark:hover:bg-[#334155] ${activeTest === 'URLLC_critical_load' ? 'bg-slate-100 dark:bg-[#334155] text-orange-500 dark:text-orange-400' : 'text-slate-600 dark:text-slate-300'}`}
-                                    >
-                                        ⚡ URLLC: Afflux de Charge Critique
-                                    </button>
-                                    <button 
-                                        onClick={() => { startSimulationTest('mMTC_10k_ues'); setIsTestMenuOpen(false); }}
-                                        className={`w-full text-left px-3 py-2 text-xs font-mono rounded hover:bg-slate-100 dark:hover:bg-[#334155] ${activeTest === 'mMTC_10k_ues' ? 'bg-slate-100 dark:bg-[#334155] text-emerald-500 dark:text-emerald-400' : 'text-slate-600 dark:text-slate-300'}`}
-                                    >
-                                        📡 mMTC: Tempête de 10 000 UE
-                                    </button>
-                                    <button 
-                                        onClick={() => { startSimulationTest('V2X_emergency_brake'); setIsTestMenuOpen(false); }}
-                                        className={`w-full text-left px-3 py-2 text-xs font-mono rounded hover:bg-slate-100 dark:hover:bg-[#334155] ${activeTest === 'V2X_emergency_brake' ? 'bg-slate-100 dark:bg-[#334155] text-purple-500 dark:text-purple-400' : 'text-slate-600 dark:text-slate-300'}`}
-                                    >
-                                        🚗 V2X: Diffusion de Freinage d'Urgence
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-                    </div>
 
                     {/* Interval Selector */}
                     <div className="border border-slate-200 dark:border-[#2a2e3f] bg-slate-50 dark:bg-[#161b22] rounded-lg p-1 flex items-center gap-1 transition-colors">
