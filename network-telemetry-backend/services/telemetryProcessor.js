@@ -48,10 +48,9 @@ async function fetchCoreNetworkMetrics() {
         // Consultar el endpoint oficial de NMS para extraer el bitrate que pasa por el N3 (GTP-U)
         const response = await axios.get(`${FIRECELL_API_URL}/core/1/bitrates`, { timeout: 800 });
         if (response.data) {
-            // El API de Firecell devuelve downlink y uplink en unidades que convertimos a Mbps si fuese necesario
-            // Por consistencia asumimos el valor tal cual o con formateo
-            coreThroughputDlMbps = parseFloat((response.data.downlink || 0).toFixed(2));
-            coreThroughputUlMbps = parseFloat((response.data.uplink || 0).toFixed(2));
+            // El API de Firecell devuelve downlink y uplink en Kbps, los dividimos por 1000 para convertirlos a Mbps
+            coreThroughputDlMbps = parseFloat(((response.data.downlink || 0) / 1000).toFixed(2));
+            coreThroughputUlMbps = parseFloat(((response.data.uplink || 0) / 1000).toFixed(2));
         }
     } catch (e) {
         console.error("Error al consultar API del Core 5G (Firecell NMS):", e.message);
