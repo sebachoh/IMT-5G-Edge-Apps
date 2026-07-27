@@ -83,9 +83,8 @@ export default function App() {
         
         {/* Cameras Section */}
         <section className="lg:col-span-8 flex flex-col gap-4">
-          <div className="glass-panel p-4 flex-1 flex flex-col sm:flex-row gap-4 min-h-[400px]">
+          <div className="glass-panel p-4 flex-1 flex flex-col gap-4 min-h-[400px]">
              <VideoPlayer streamUrl="http://100.77.155.100:8000/live/camera_real.flv" title="Caméra Principale" />
-             <VideoPlayer streamUrl="http://100.77.155.100:8000/live/camera2.flv" title="Caméra Secondaire" />
           </div>
         </section>
 
