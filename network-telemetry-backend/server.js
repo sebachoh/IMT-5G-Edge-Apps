@@ -2,7 +2,7 @@ const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
-const { generateMockSliceData } = require('./services/dataGenerator');
+const { processTelemetryData } = require('./services/telemetryProcessor');
 
 const app = express();
 
@@ -52,7 +52,7 @@ io.on('connection', (socket) => {
 function startTelemetry(intervalMs = 1000) {
     if(intervalId) clearInterval(intervalId);
     intervalId = setInterval(() => {
-        const data = generateMockSliceData(simulationMode, customConfig);
+        const data = processTelemetryData(simulationMode, customConfig);
         data.timestamp = Date.now();
         
         historyCache.push(data);
