@@ -5,7 +5,6 @@ import { Activity, Zap, Cpu, Car, Moon, Sun } from 'lucide-react';
 import { useMetrics } from '../context/MetricsContext';
 import LoadTestPanel from '../components/LoadTestPanel';
 import SliceCard from '../components/SliceCard';
-import FluxFlowDiagram from '../components/FluxFlowDiagram';
 import LiveStreamlines from '../components/LiveStreamlines';
 import IntensityHeatmap from '../components/IntensityHeatmap';
 
@@ -378,8 +377,8 @@ function Dashboard({ isDarkMode, setIsDarkMode }) {
                         </div>
                     </div>
 
-                    {/* VALIDACIÓN HÍBRIDA & DIAGRAMA DE FLUJO (Fila 3) */}
-                    <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-6">
+                    {/* VALIDACIÓN HÍBRIDA (Fila 3) */}
+                    <div className="mt-6">
                         {/* Panel de Validación Cruzada (Core 5G vs Edge MEC) */}
                         <div className="bg-white dark:bg-[#12141c] border border-slate-200 dark:border-[#2a2e3f] rounded-2xl p-6 shadow-2xl flex flex-col justify-between transition-colors duration-500">
                             <div>
@@ -392,7 +391,7 @@ function Dashboard({ isDarkMode, setIsDarkMode }) {
                                 </p>
                             </div>
                             
-                            <div className="space-y-4 my-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-2">
                                 <div className="bg-slate-50 dark:bg-[#161b22] border border-slate-200 dark:border-[#2a2e3f] rounded-xl p-4">
                                     <div className="text-xs font-semibold text-slate-500 mb-1">TUNNEL N3 (GTP-U CORE 5G)</div>
                                     <div className="flex justify-between items-baseline">
@@ -417,11 +416,6 @@ function Dashboard({ isDarkMode, setIsDarkMode }) {
                             <div className="text-[10px] text-slate-400 dark:text-slate-500 font-mono border-t border-slate-100 dark:border-[#2a2e3f] pt-4 mt-2">
                                 * Écart attendu : Le trafic local inter-docker sur le Edge n'est pas vu par le tunnel N3.
                             </div>
-                        </div>
-
-                        {/* Diagramme de flux (FluxFlowDiagram) */}
-                        <div className="xl:col-span-2">
-                            <FluxFlowDiagram />
                         </div>
                     </div>
                 </div>
