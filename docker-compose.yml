@@ -104,6 +104,32 @@ services:
       - edge-net
     restart: unless-stopped
 
+  # 8. Navette Backend (Node.js TCP/Socket.io)
+  navette-backend:
+    build:
+      context: ./services/navette-backend
+    container_name: edge_navette_backend
+    environment:
+      - PORT=3005
+      - ROBOT_IP=192.168.1.100
+      - ROBOT_PORT=2000
+    ports:
+      - "3005:3005"
+    networks:
+      - edge-net
+    restart: unless-stopped
+
+  # 9. React Frontend - Navette UI
+  navette-ui:
+    build:
+      context: ./web-dashboards/navette-ui
+    container_name: edge_navette_ui
+    ports:
+      - "8082:80" # NGINX HTTP Port for Navette UI
+    networks:
+      - edge-net
+    restart: unless-stopped
+
 networks:
   edge-net:
     driver: bridge
