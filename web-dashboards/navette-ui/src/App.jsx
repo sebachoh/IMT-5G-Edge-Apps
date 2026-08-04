@@ -9,6 +9,7 @@ function App() {
   const [robotConnected, setRobotConnected] = useState(false);
   const [telemetry, setTelemetry] = useState({ battery: 0, speed: 0, distance: 0 });
   const [activeCommand, setActiveCommand] = useState(null);
+  const [hoveredCommand, setHoveredCommand] = useState(null);
   
   // Theme state
   const [isDark, setIsDark] = useState(() => {
@@ -80,10 +81,10 @@ function App() {
       if (e.repeat) return;
       
       switch(e.key.toLowerCase()) {
-        case 'w': sendCommand('forward'); break;
-        case 's': sendCommand('backward'); break;
-        case 'a': sendCommand('left'); break;
-        case 'd': sendCommand('right'); break;
+        case 'w': sendCommand('forward'); setHoveredCommand('forward'); break;
+        case 's': sendCommand('backward'); setHoveredCommand('backward'); break;
+        case 'a': sendCommand('left'); setHoveredCommand('left'); break;
+        case 'd': sendCommand('right'); setHoveredCommand('right'); break;
         case ' ': handleStop(); break;
         default: break;
       }
@@ -93,6 +94,7 @@ function App() {
       const keys = ['w', 's', 'a', 'd', ' '];
       if (keys.includes(e.key.toLowerCase())) {
          handleStop();
+         setHoveredCommand(null);
       }
     };
 
@@ -205,7 +207,7 @@ function App() {
             </svg>
             Visualizer
           </h2>
-          <RobotVisualizer activeCommand={activeCommand} />
+          <RobotVisualizer activeCommand={activeCommand || hoveredCommand} />
         </div>
 
         {/* Panel 3: Remote Control Panel */}
@@ -224,6 +226,8 @@ function App() {
                 active={activeCommand === 'forward'} 
                 onPress={() => sendCommand('forward')} 
                 onRelease={handleStop}
+                onHover={() => setHoveredCommand('forward')}
+                onLeave={() => setHoveredCommand(null)}
               />
               <div></div>
               
@@ -232,18 +236,24 @@ function App() {
                 active={activeCommand === 'left'} 
                 onPress={() => sendCommand('left')} 
                 onRelease={handleStop}
+                onHover={() => setHoveredCommand('left')}
+                onLeave={() => setHoveredCommand(null)}
               />
               <ControlButton 
                 label="S" icon="▼" 
                 active={activeCommand === 'backward'} 
                 onPress={() => sendCommand('backward')} 
                 onRelease={handleStop}
+                onHover={() => setHoveredCommand('backward')}
+                onLeave={() => setHoveredCommand(null)}
               />
               <ControlButton 
                 label="D" icon="▶" 
                 active={activeCommand === 'right'} 
                 onPress={() => sendCommand('right')} 
                 onRelease={handleStop}
+                onHover={() => setHoveredCommand('right')}
+                onLeave={() => setHoveredCommand(null)}
               />
            </div>
            
@@ -309,14 +319,15 @@ function RobotVisualizer({ activeCommand }) {
   );
 }
 
-function ControlButton({ label, icon, active, onPress, onRelease }) {
+function ControlButton({ label, icon, active, onPress, onRelease, onHover, onLeave }) {
   return (
     <button
       onMouseDown={onPress}
       onMouseUp={onRelease}
-      onMouseLeave={onRelease}
-      onTouchStart={(e) => { e.preventDefault(); onPress(); }}
-      onTouchEnd={(e) => { e.preventDefault(); onRelease(); }}
+      onMouseLeave={() => { onRelease(); if(onLeave) onLeave(); }}
+      onMouseEnter={onHover}
+      onTouchStart={(e) => { e.preventDefault(); onPress(); if(onHover) onHover(); }}
+      onTouchEnd={(e) => { e.preventDefault(); onRelease(); if(onLeave) onLeave(); }}
       className={`
         w-full h-full flex flex-col items-center justify-center rounded-2xl border-2 transition-all duration-150 select-none shadow-sm
         ${active 
