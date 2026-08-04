@@ -130,6 +130,30 @@ services:
       - edge-net
     restart: unless-stopped
 
+  # 10. CasqueVR Backend (Tracking Data)
+  casque-vr-backend:
+    build:
+      context: ./services/casque-vr-backend
+    container_name: edge_casque_vr_backend
+    environment:
+      - PORT=3010
+    ports:
+      - "3010:3010"
+    networks:
+      - edge-net
+    restart: unless-stopped
+
+  # 11. React Frontend - CasqueVR UI
+  casque-vr-ui:
+    build:
+      context: ./web-dashboards/casque-vr-ui
+    container_name: edge_casque_vr_ui
+    ports:
+      - "8084:80" # NGINX HTTP Port for CasqueVR UI
+    networks:
+      - edge-net
+    restart: unless-stopped
+
 networks:
   edge-net:
     driver: bridge

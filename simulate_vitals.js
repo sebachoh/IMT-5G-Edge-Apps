@@ -1,6 +1,6 @@
 const mqtt = require('mqtt');
 // Connect to the local edge broker (or update to remote Edge IP when deploying)
-const client = mqtt.connect('mqtt://127.0.0.1:1883');
+const client = mqtt.connect('mqtt://172.27.163.24:1883');
 
 // Medical Patient Baseline (Healthy Adult)
 let patientState = {
